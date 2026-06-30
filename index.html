@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+
+<title>Evolution Genesis</title>
+
+<meta name="theme-color" content="#1b2b34">
+<meta name="description" content="Explore, evolve and survive.">
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    -webkit-tap-highlight-color:transparent;
+}
+
+html,body{
+    width:100%;
+    height:100%;
+    overflow:hidden;
+    background:#000;
+    font-family:Arial,Helvetica,sans-serif;
+    color:white;
+    touch-action:none;
+}
+
+canvas{
+    display:block;
+    width:100%;
+    height:100%;
+}
+
+#loading{
+    position:fixed;
+    inset:0;
+    background:#0a0a0a;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    z-index:1000;
+}
+
+#loading h1{
+    font-size:42px;
+    margin-bottom:15px;
+}
+
+.bar{
+    width:320px;
+    height:16px;
+    border-radius:20px;
+    overflow:hidden;
+    background:#333;
+}
+
+.fill{
+    width:0%;
+    height:100%;
+    background:linear-gradient(90deg,#33ff88,#00bfff);
+    transition:.2s;
+}
+
+#loadingText{
+    margin-top:15px;
+    opacity:.8;
+}
+
+#hud{
+    position:absolute;
+    top:15px;
+    left:15px;
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+    z-index:5;
+}
+
+.panel{
+    background:rgba(0,0,0,.45);
+    backdrop-filter:blur(8px);
+    border-radius:10px;
+    padding:10px 14px;
+}
+
+#crosshair{
+    position:absolute;
+    left:50%;
+    top:50%;
+    width:26px;
+    height:26px;
+    transform:translate(-50%,-50%);
+    pointer-events:none;
+}
+
+#crosshair:before,
+#crosshair:after{
+    content:"";
+    position:absolute;
+    background:white;
+}
+
+#crosshair:before{
+    left:12px;
+    top:0;
+    width:2px;
+    height:26px;
+}
+
+#crosshair:after{
+    top:12px;
+    left:0;
+    width:26px;
+    height:2px;
+}
+
+#menu{
+    position:absolute;
+    inset:0;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:rgba(0,0,0,.75);
+}
+
+.card{
+    width:min(90%,420px);
+    background:#202020;
+    border-radius:20px;
+    padding:25px;
+    text-align:center;
+}
+
+.card h1{
+    margin-bottom:10px;
+}
+
+.card p{
+    opacity:.8;
+    margin-bottom:20px;
+}
+
+button{
+    border:none;
+    padding:14px 24px;
+    font-size:18px;
+    border-radius:12px;
+    background:#32c864;
+    color:white;
+}
+
+button:active{
+    transform:scale(.96);
+}
+
+#mobileControls{
+    position:absolute;
+    inset:0;
+    pointer-events:none;
+}
+
+.joy{
+    position:absolute;
+    bottom:25px;
+    width:120px;
+    height:120px;
+    border-radius:50%;
+    background:rgba(255,255,255,.08);
+    border:2px solid rgba(255,255,255,.2);
+}
+
+#leftJoy{
+    left:20px;
+}
+
+#rightJoy{
+    right:20px;
+}
+
+@media (min-width:900px){
+    #mobileControls{
+        display:none;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div id="loading">
+    <h1>Evolution Genesis</h1>
+
+    <div class="bar">
+        <div class="fill" id="loadingFill"></div>
+    </div>
+
+    <div id="loadingText">Loading...</div>
+</div>
+
+<div id="hud">
+
+    <div class="panel">
+        ❤️ Health:
+        <span id="health">100</span>
+    </div>
+
+    <div class="panel">
+        ⭐ XP:
+        <span id="xp">0</span>
+    </div>
+
+    <div class="panel">
+        🦴 Food:
+        <span id="food">0</span>
+    </div>
+
+    <div class="panel">
+        🧬 Evolution:
+        <span id="evolution">Stage 1</span>
+    </div>
+
+</div>
+
+<div id="crosshair"></div>
+
+<div id="menu">
+
+<div class="card">
+
+<h1>Evolution Genesis</h1>
+
+<p>
+Explore the world, gather food, evolve,
+fight creatures and become the strongest lifeform.
+</p>
+
+<button id="playButton">
+Play
+</button>
+
+</div>
+
+</div>
+
+<div id="mobileControls">
+<div class="joy" id="leftJoy"></div>
+<div class="joy" id="rightJoy"></div>
+</div>
+
+<canvas id="gameCanvas"></canvas>
+
+<script>
+const fill=document.getElementById("loadingFill");
+const loading=document.getElementById("loading");
+
+let p=0;
+
+const interval=setInterval(()=>{
+
+p+=5;
+
+fill.style.width=p+"%";
+
+if(p>=100){
+clearInterval(interval);
+setTimeout(()=>{
+loading.style.display="none";
+},300);
+}
+
+},40);
+</script>
+
+<script src="main.js"></script>
+
+<!-- Eruda (mobile console) -->
+<script src="https://cdn.jsdelivr.net/npm/eruda"></script>
+<script>eruda.init();</script>
+
+</body>
+  </html>
